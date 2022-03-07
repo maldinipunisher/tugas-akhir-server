@@ -9,6 +9,10 @@ app.use(bodyParser.json())
 // app.use(routeSaya)
 var db = fire.firestore()
 
+app.get('/', (req, res) => {
+    res.send('https://www.github.com/maldinipunisher')
+})
+
 app.get('/set', (req, res) => {
     db.settings({
         timestampsInSnapshots: true
@@ -45,6 +49,6 @@ app.get('/get', (req, res) => {
     })
 })
 
-app.listen(80, () => {
+app.listen(process.env.PORT || 80, () => {
     console.log('Server aktif @port 3210')
 })
