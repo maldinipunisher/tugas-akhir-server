@@ -37,7 +37,8 @@ app.get('/get', (req, res) => {
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if(doc.exists) {
-            res.send(doc.data())
+            res.send(JSON.stringify(doc.data()))
+            console.log(req.socket.bytesRead)
         }else {
             res.send('empty')
         }
