@@ -14,9 +14,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/set', (req, res) => {
-    db.settings({
-        timestampsInSnapshots: true
-    })
     db.collection('data').doc(req.query.password).set({
         command: req.query.command,
         latitude: req.query.latitude,
@@ -34,9 +31,9 @@ app.get('/set', (req, res) => {
 })
 
 app.get('/get', (req, res) => {
-    db.settings({
-        timestampsInSnapshots: true
-    })
+    // db.settings({
+    //     timestampsInSnapshots: true
+    // })
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if(doc.exists) {
