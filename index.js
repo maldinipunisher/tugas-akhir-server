@@ -45,6 +45,6 @@ app.get('/get', (req, res) => {
     })
 })
 
-app.listen(3210, () => {
+app.listen(80, () => {
     console.log('Server aktif @port 3210')
 })
