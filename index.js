@@ -13,26 +13,35 @@ app.get('/', (req, res) => {
     res.send('https://www.github.com/maldinipunisher')
 })
 
-app.get('/set', (req, res) => {
+app.get('/setup', (req, res) => {
     db.collection('data').doc(req.query.password).set({
         lock: req.query.lock,
         alarm: req.query.alarm,
-        latitude: req.query.latitude,
-        longtitude: req.query.longtitude,
-        status: req.query.status,
         waktu: new Date(),
-        ontime : req.query.ontime, 
     })
-    res.send({
-        lock: req.query.lock,
-        alarm: req.query.alarm,
-        latitude: req.query.latitude,
-        longtitude: req.query.longtitude,
-        status: req.query.status,
-        waktu: new Date(),
-        ontime : req.query.ontime, 
+})
 
-    })
+app.get('/set', (req, res) => {
+    var params =  new Object() 
+
+    if(req.query.lock ) {
+        params.lock = req.query.lock
+    }else if(req.query.alarm) {
+        params.alarm = req.query.alarm
+    }else if(req.query.latitude) {
+        params.latitude = req.query.latitude
+    }else if(req.query.longtitude){
+        params.longtitude = req.query.longtitude
+    }else if(req.query.status){
+        params.status = req.query.status
+    }else if(req.query.ontime) {
+        params.ontime = req.query.ontime
+    }
+
+    params.waktu = new Date()
+
+    db.collection('data').doc(req.query.password).set(JSON.stringify(params))
+    res.send(JSON.stringify(params))
 })
 
 app.get('/get', (req, res) => {
