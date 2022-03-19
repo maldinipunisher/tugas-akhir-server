@@ -15,7 +15,8 @@ app.get('/', (req, res) => {
 
 app.get('/set', (req, res) => {
     db.collection('data').doc(req.query.password).set({
-        command: req.query.command,
+        lock: req.query.lock,
+        alarm: req.query.alarm,
         latitude: req.query.latitude,
         longtitude: req.query.longtitude,
         status: req.query.status,
@@ -23,7 +24,8 @@ app.get('/set', (req, res) => {
         ontime : req.query.ontime, 
     })
     res.send({
-        command: req.query.command,
+        lock: req.query.lock,
+        alarm: req.query.alarm,
         latitude: req.query.latitude,
         longtitude: req.query.longtitude,
         status: req.query.status,
@@ -42,7 +44,8 @@ app.get('/get', (req, res) => {
         if(doc.exists) {
             var jsonObj = new Object() 
             jsonObj.latitude = doc.data()['latitude']
-            jsonObj.command = doc.data()['command']
+            jsonObj.lock = doc.data()['lock']
+            jsonObj.alarm = doc.data()['alarm']
             jsonObj.waktu  = doc.data()['waktu']['seconds']
             jsonObj.status  = doc.data()['status']
             jsonObj.longtitude = doc.data()['longtitude']
