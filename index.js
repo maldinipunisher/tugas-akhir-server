@@ -40,7 +40,7 @@ app.get('/set', (req, res) => {
 
     params.waktu = new Date()
 
-    db.collection('data').doc(req.query.password).set(JSON.stringify(params))
+    db.collection('data').doc(req.query.password).set(params)
     res.send(JSON.stringify(params))
 })
 
