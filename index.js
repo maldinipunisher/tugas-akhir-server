@@ -22,6 +22,12 @@ app.get('/setup', (req, res) => {
             waktu: new Date(),
         })
     }
+    res.send({
+        lock: req.query.lock,
+        alarm: req.query.alarm,
+        status: req.query.status,
+        waktu: new Date(),
+    })
 })
 
 app.get('/set', (req, res) => {
