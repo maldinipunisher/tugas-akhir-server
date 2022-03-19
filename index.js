@@ -26,15 +26,20 @@ app.get('/set', (req, res) => {
 
     if(req.query.lock ) {
         params.lock = req.query.lock
-    }else if(req.query.alarm) {
+    }
+     if(req.query.alarm) {
         params.alarm = req.query.alarm
-    }else if(req.query.latitude) {
+    }
+    if(req.query.latitude) {
         params.latitude = req.query.latitude
-    }else if(req.query.longtitude){
+    }
+    if(req.query.longtitude){
         params.longtitude = req.query.longtitude
-    }else if(req.query.status){
+    }
+     if(req.query.status){
         params.status = req.query.status
-    }else if(req.query.ontime) {
+    }
+     if(req.query.ontime) {
         params.ontime = req.query.ontime
     }
     var password = req.query.password
