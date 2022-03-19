@@ -40,7 +40,7 @@ app.get('/get', (req, res) => {
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if(doc.exists) {
-            var jsonObj = '{"latitude":' +  doc.data()['latitude'] + ', "command" : ' +  doc.data()['command'] + ',"waktu":'  + doc.data()['waktu'] + ', "status" : '  + doc.data()['status'] + ',"longtitude" : ' + doc.data()['longtitude']
+            var jsonObj = '{"latitude":' +  doc.data()['latitude'] + ', "command" : ' +  doc.data()['command'] + ',"waktu":'  + doc.data()['waktu'] + ', "status" : '  + doc.data()['status'] + ',"longtitude" : ' + doc.data()['longtitude'] + '}'
             JSON.parse(jsonObj)
 
             res.send(JSON.stringify(jsonObj))
