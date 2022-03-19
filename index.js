@@ -19,14 +19,17 @@ app.get('/set', (req, res) => {
         latitude: req.query.latitude,
         longtitude: req.query.longtitude,
         status: req.query.status,
-        waktu: new Date()
+        waktu: new Date(),
+        ontime : req.query.ontime, 
     })
     res.send({
         command: req.query.command,
         latitude: req.query.latitude,
         longtitude: req.query.longtitude,
         status: req.query.status,
-        waktu: new Date()
+        waktu: new Date(),
+        ontime : req.query.ontime, 
+
     })
 })
 
@@ -37,7 +40,10 @@ app.get('/get', (req, res) => {
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if(doc.exists) {
-            res.send(JSON.stringify(doc.data()))
+            var jsonObj = '{"latitude":' +  doc.data()['latitude'] + ', "command" : ' +  doc.data()['command'] + ',"waktu":'  + doc.data()['waktu'] + ', "status" : '  + doc.data()['status'] + ',"longtitude" : ' + doc.data()['longtitude']
+            JSON.parse(jsonObj)
+
+            res.send(JSON.stringify(jsonObj))
             console.log(req.socket.bytesRead)
         }else {
             res.send('empty')
@@ -47,6 +53,10 @@ app.get('/get', (req, res) => {
     })
 })
 
-app.listen(process.env.PORT || 80, () => {
-    console.log('Server aktif @port 3210')
-})
+// app.listen(process.env.PORT || 80, () => {
+//     console.log('Server aktif @port 3210')
+// })
+
+app.listen(3210, () => {
+        console.log('Server aktif @port 3210')
+    })
