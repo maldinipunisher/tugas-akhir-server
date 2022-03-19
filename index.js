@@ -37,10 +37,12 @@ app.get('/set', (req, res) => {
     }else if(req.query.ontime) {
         params.ontime = req.query.ontime
     }
-
+    var password = req.query.password
     params.waktu = new Date()
 
-    db.collection('data').doc(req.query.password).set(params)
+    if(password) {
+        db.collection('data').doc(req.query.password).set(params)
+    }
     res.send(JSON.stringify(params))
 })
 
