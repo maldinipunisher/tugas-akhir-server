@@ -40,8 +40,13 @@ app.get('/get', (req, res) => {
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if(doc.exists) {
-            var jsonObj = '{"latitude":' +  doc.data()['latitude'] + ', "command" : ' +  doc.data()['command']  + ', "status" : '  + doc.data()['status'] + ',"longtitude" : ' + doc.data()['longtitude'] + '}'
-            JSON.parse(jsonObj)
+            var jsonObj = new Object() 
+            jsonObj.latitude = doc.data()['latitude']
+            jsonObj.command = doc.data()['command']
+            jsonObj.waktu  = doc.data()['waktu']
+            jsonObj.status  = doc.data()['status']
+            jsonObj.longtitude = doc.data()['longtitude']
+            // JSON.parse(data)
 
             res.send(JSON.stringify(jsonObj))
             console.log(req.socket.bytesRead)
@@ -53,10 +58,10 @@ app.get('/get', (req, res) => {
     })
 })
 
-app.listen(process.env.PORT || 80, () => {
-    console.log('Server aktif @port 3210')
-})
+// app.listen(process.env.PORT || 80, () => {
+//     console.log('Server aktif @port 3210')
+// })
 
-// app.listen(3210, () => {
-//         console.log('Server aktif @port 3210')
-//     })
+app.listen(3210, () => {
+        console.log('Server aktif @port 3210')
+    })
