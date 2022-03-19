@@ -14,11 +14,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/setup', (req, res) => {
-    db.collection('data').doc(req.query.password).set({
-        lock: req.query.lock,
-        alarm: req.query.alarm,
-        waktu: new Date(),
-    })
+    if(req.query.password){
+        db.collection('data').doc(req.query.password).set({
+            lock: req.query.lock,
+            alarm: req.query.alarm,
+            status: req.query.status,
+            waktu: new Date(),
+        })
+    }
 })
 
 app.get('/set', (req, res) => {
