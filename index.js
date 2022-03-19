@@ -46,7 +46,7 @@ app.get('/set', (req, res) => {
     params.waktu = new Date()
 
     if(password) {
-        db.collection('data').doc(req.query.password).set(params)
+        db.collection('data').doc(req.query.password).update(params)
     }
     res.send(JSON.stringify(params))
 })
@@ -59,13 +59,9 @@ app.get('/get', (req, res) => {
     data.get().then((doc) => {
         if(doc.exists) {
             var jsonObj = new Object() 
-            jsonObj.latitude = doc.data()['latitude']
+            jsonObj.coor = doc.data()['latitude'] + "," +doc.data()['longtitude']
             jsonObj.lock = doc.data()['lock']
             jsonObj.alarm = doc.data()['alarm']
-            jsonObj.waktu  = doc.data()['waktu']['seconds']
-            jsonObj.status  = doc.data()['status']
-            jsonObj.longtitude = doc.data()['longtitude']
-            // JSON.parse(data)
 
             res.send(JSON.stringify(jsonObj))
             console.log(req.socket.bytesRead)
