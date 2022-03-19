@@ -68,7 +68,7 @@ app.get('/get', (req, res) => {
     data.get().then((doc) => {
         if(doc.exists) {
             var jsonObj = new Object() 
-            jsonObj.coor = doc.data()['latitude'] + "," +doc.data()['longtitude']
+            // jsonObj.coor = doc.data()['latitude'] + "," +doc.data()['longtitude']
             jsonObj.lock = doc.data()['lock']
             jsonObj.alarm = doc.data()['alarm']
 
