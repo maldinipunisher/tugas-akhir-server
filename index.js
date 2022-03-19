@@ -43,7 +43,7 @@ app.get('/get', (req, res) => {
             var jsonObj = new Object() 
             jsonObj.latitude = doc.data()['latitude']
             jsonObj.command = doc.data()['command']
-            jsonObj.waktu  = doc.data()['waktu']
+            jsonObj.waktu  = doc.data()['waktu']['seconds']
             jsonObj.status  = doc.data()['status']
             jsonObj.longtitude = doc.data()['longtitude']
             // JSON.parse(data)
