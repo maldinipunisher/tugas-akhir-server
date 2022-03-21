@@ -57,7 +57,8 @@ app.get('/set', (req, res) => {
     if(password) {
         db.collection('data').doc(req.query.password).update(params)
     }
-    res.json(JSON.stringify(params))
+    let response = JSON.stringify(params)
+    res.json(JSON.parse(response))
 })
 
 app.get('/get', (req, res) => {
