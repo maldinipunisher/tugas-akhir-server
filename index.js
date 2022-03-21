@@ -71,6 +71,7 @@ app.get('/get', (req, res) => {
             // jsonObj.coor = doc.data()['latitude'] + "," +doc.data()['longtitude']
             jsonObj.lock = doc.data()['lock']
             jsonObj.alarm = doc.data()['alarm']
+            jsonObj.status = doc.data()['status']
 
             res.send(JSON.stringify(jsonObj))
             console.log(req.socket.bytesRead)
