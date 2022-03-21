@@ -57,7 +57,7 @@ app.get('/set', (req, res) => {
     if(password) {
         db.collection('data').doc(req.query.password).update(params)
     }
-    res.send(JSON.stringify(params))
+    res.json(JSON.stringify(params))
 })
 
 app.get('/get', (req, res) => {
@@ -73,7 +73,7 @@ app.get('/get', (req, res) => {
             jsonObj.alarm = doc.data()['alarm']
             jsonObj.status = doc.data()['status']
 
-            res.send(JSON.stringify(jsonObj))
+            res.json(JSON.stringify(jsonObj))
             console.log(req.socket.bytesRead)
         }else {
             res.send('empty')
