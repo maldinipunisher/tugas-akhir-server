@@ -73,8 +73,9 @@ app.get('/get', (req, res) => {
             jsonObj.alarm = doc.data()['alarm']
             jsonObj.status = doc.data()['status']
 
-            res.json(JSON.stringify(jsonObj))
-            console.log(req.socket.bytesRead)
+            // res.json(JSON.stringify(jsonObj))
+            res.json({"tes":"success"})
+            // console.log(req.socket.bytesRead)
         }else {
             res.send('empty')
         }
