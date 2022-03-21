@@ -72,9 +72,9 @@ app.get('/get', (req, res) => {
             jsonObj.lock = doc.data()['lock']
             jsonObj.alarm = doc.data()['alarm']
             jsonObj.status = doc.data()['status']
-
+            let response = JSON.stringify(jsonObj)
             // res.json(JSON.stringify(jsonObj))
-            res.json({"tes":"success"})
+            res.json(JSON.parse(response))
             // console.log(req.socket.bytesRead)
         }else {
             res.send('empty')
