@@ -19,6 +19,7 @@ app.get('/setup', (req, res) => {
             lock: req.query.lock,
             alarm: req.query.alarm,
             status: req.query.status,
+            waktu_mulai: new Date(), 
             waktu: new Date(),
         })
     }
@@ -26,6 +27,7 @@ app.get('/setup', (req, res) => {
         lock: req.query.lock,
         alarm: req.query.alarm,
         status: req.query.status,
+        waktu_mulai: new Date(), 
         waktu: new Date(),
     })
 })
