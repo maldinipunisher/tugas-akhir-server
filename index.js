@@ -1,13 +1,12 @@
+let firebase = require("firebase")
 var express = require('express')
 var bodyParser = require('body-parser')
 const axios = require('axios')
 var cors = require('cors')
-var routeSaya = require('./route')
 var fire = require('./fire')
 var app = express()
 app.use(cors())
 app.use(bodyParser.json())
-// app.use(routeSaya)
 var db = fire.firestore()
 
 app.get('/', (req, res) => {
@@ -22,6 +21,11 @@ app.get('/setup', (req, res) => {
             status: req.query.status,
             waktu_mulai: new Date(),
             waktu: new Date(),
+            trigger: "",
+            latitude: 0.1,
+            longtitude: 0.1,
+            notifications: [],
+            token_app: "",
         })
     }
     res.send({
@@ -30,41 +34,59 @@ app.get('/setup', (req, res) => {
         status: req.query.status,
         waktu_mulai: new Date(),
         waktu: new Date(),
+        trigger: "",
+        latitude: 0.1,
+        longtitude: 0.1,
+        notifications: [],
     })
 })
 
-app.get("/send-notification", (req, res) => {
+app.get("/send-notification", async (req, res) => {
     let headers = {
         "Authorization": "key=AAAAZ5ttDVo:APA91bHo9nUceYkV41q8mCy-GlSh2cHXJxMGVTVSxuDf3zfClsTJPH5teZgzC1ncPM4eLOAD2fmggROy8C2J5CRHfuxlo_Rjrj0-nzS1bXwL3x55hqcI4r-AAE0uAAhWMAQxOLU6Batq",
         "Content-Type": "application/json",
     }
 
-    if (req.query.alarm) {
-        let body = {
-            "to": "/topics/fcm_test",
-            "notification": {
-                "body": "Peringatan alarm pada kendaraan anda telah berbunyi",
-                "title": "Alarm berbunyi",
-                "sound": "default",
+    let token_app = "";
+    let ref = await db.collection("data").doc(req.query.password).get(); 
+    token_app = (ref.exists) ? ref.data()['token_app'] : ""; 
+    console.log(token_app);
+
+    let storage = firebase.storage().ref();
+    let alarm_icon =storage.child('alarm-icon.png');
+
+    if (req.query.password) {
+        if (req.query.alarm) {
+            let body = {
+                "to": token_app,
+                "data": {
+                    "body": "Sistem keamanan telah mendeteksi adanya kecurigaan sehingga sistem menyalakan alarm pada kendaraan.",
+                    "title": "Alarm Menyala",
+                    "icon": await alarm_icon.getDownloadURL(),
+                }
             }
-        }
-        // res.send(JSON.stringify(body))
-        // res.send(body)
-        axios.post('https://fcm.googleapis.com/fcm/send', body, {headers : headers})
-            .then(function (response) {
-                console.log(response.data);
-                res.send(response.data);
-                // res.json({
-                //     data: JSON.stringify(response)
-                // })
-            })
-            .catch(function (error) {
-                console.log(error);
-                res.send({
-                    status: '500',
-                    message: error
+            axios.post('https://fcm.googleapis.com/fcm/send', body, { headers: headers })
+                .then(function (response) {
+                    console.log(response.data);
+                    db.collection('data').doc(req.query.password).update({
+                        notifications: firebase.firestore.FieldValue.arrayUnion(JSON.stringify({
+                            "body": "Peringatan!, alarm kendaraan menyala",
+                            "title": "Alarm Menyala",
+                            "read": "0",
+                            "date": new Date(),
+                        }))
+                    })
+                    res.send(response.data);
+
                 })
-            });
+                .catch(function (error) {
+                    console.log(error);
+                    res.send({
+                        status: '500',
+                        message: error
+                    })
+                });
+        }
     }
 });
 
@@ -100,21 +122,15 @@ app.get('/set', (req, res) => {
 })
 
 app.get('/get', (req, res) => {
-    // db.settings({
-    //     timestampsInSnapshots: true
-    // })
     var data = db.collection('data').doc(req.query.password)
     data.get().then((doc) => {
         if (doc.exists) {
             var jsonObj = new Object()
-            // jsonObj.coor = doc.data()['latitude'] + "," +doc.data()['longtitude']
             jsonObj.lock = doc.data()['lock']
             jsonObj.alarm = doc.data()['alarm']
             jsonObj.status = doc.data()['status']
             let response = JSON.stringify(jsonObj)
-            // res.json(JSON.stringify(jsonObj))
             res.json(JSON.parse(response))
-            // console.log(req.socket.bytesRead)
         } else {
             res.send('empty')
         }
@@ -124,9 +140,5 @@ app.get('/get', (req, res) => {
 })
 
 app.listen(process.env.PORT || 80, () => {
-    console.log('Server aktif @port 3210')
+    console.log('Server aktif @port 80')
 })
-
-// app.listen(3210, () => {
-//         console.log('Server aktif @port 3210')
-//     })
